@@ -1,9 +1,12 @@
-const { webkit, devices } = require("playwright-webkit");
+const puppeteer = require("puppeteer-extra");
+const devices = require("puppeteer/DeviceDescriptors");
+const pluginStealth = require("puppeteer-extra-plugin-stealth");
+puppeteer.use(pluginStealth());
 const iPhone11 = devices["iPhone 11 Pro"];
 
 class Signer {
   userAgent =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36";
   args = [
     "--no-sandbox",
     "--disable-setuid-sandbox",
@@ -34,27 +37,24 @@ class Signer {
       ignoreDefaultArgs: ["--mute-audio", "--hide-scrollbars"],
       headless: true,
       ignoreHTTPSErrors: true,
+      defaultViewport: {
+        width: getRandomInt(320, 1920),
+        height: getRandomInt(320, 1920),
+        isMobile: true,
+      },
+      deviceScaleFactor: getRandomInt(1, 3),
+      isMobile: Math.random() > 0.5,
+      hasTouch: Math.random() > 0.5,
+      userAgent: this.userAgent,
     };
   }
 
   async init() {
     if (!this.browser) {
-      this.browser = await webkit.launch(this.options);
+      this.browser = await puppeteer.launch(this.options);
     }
 
-    let emulateTemplate = { ...iPhone11 };
-    emulateTemplate.viewport.width = getRandomInt(320, 1920);
-    emulateTemplate.viewport.height = getRandomInt(320, 1920);
-
-    this.context = await this.browser.newContext({
-      ...emulateTemplate,
-      deviceScaleFactor: getRandomInt(1, 3),
-      isMobile: Math.random() > 0.5,
-      hasTouch: Math.random() > 0.5,
-      userAgent: this.userAgent,
-    });
-
-    this.page = await this.context.newPage();
+    this.page = await this.browser.newPage();
     await this.page.goto("https://www.tiktok.com/@rihanna?lang=en", {
       waitUntil: "load",
     });
@@ -68,7 +68,6 @@ class Signer {
     }
 
     await this.page.evaluate(() => {
-
       if (typeof window.byted_acrawler.sign !== "function") {
         throw "No function found";
       }
@@ -97,7 +96,7 @@ class Signer {
   }
 
   async getVerifyFp() {
-    var content = await this.context.cookies();
+    var content = await this.page.cookies();
     for (let cookie of content) {
       if (cookie.name == "s_v_web_id") {
         return cookie.value;
@@ -107,7 +106,7 @@ class Signer {
   }
 
   async getCookies() {
-    return this.page.evaluate('document.cookie;');
+    return this.page.evaluate("document.cookie;");
   }
 
   async close() {

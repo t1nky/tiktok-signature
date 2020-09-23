@@ -12,8 +12,8 @@ import requests
 # PROFILE: 8,
 # ANALYTICS: 9
 
-signature = "_02B4Z6wo00f01QlfOwwAAIBBUL8i4v.mws0JXj-AAB1R0c"
-verifyFp = "verify_kcxpglhh_ImVYPYCc_KZyz_4zwO_BnDt_TLuLcCCMD6Ob"
+signature = "_02B4Z6wo00f01NhzFGgAAIBA.ijCojyFOOjYYhDAAGl-60"
+verifyFp = "verify_kff6m8fy_nyLAmzaN_SdTi_4hoA_ARWO_zex0a4KWTDcN"
 
 referer = "https://www.tiktok.com/@ondymikula/video/6847563020290346245"
 
@@ -23,7 +23,7 @@ url = "https://m.tiktok.com/share/item/list?secUid=&id=19274&type=3&count=30&min
 
 request = requests.get(url, headers={"method": "GET",
                                      "accept-encoding": "gzip, deflate, br",
-                                     "cookie": "tt_webid_v2=1234567890",
+                                    #  "cookie": "tt_webid_v2=1234567890",
                                      "Referer": referer,
                                      "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
                                      })
