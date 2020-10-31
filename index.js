@@ -30,7 +30,11 @@ class Signer {
     this.args.push(`--user-agent="${this.userAgent}"`);
 
     this.options = {
-      args: [],
+      args: [
+        "--disable-accelerated-2d-canvas",
+        "--no-first-run",
+        "--disable-dev-shm-usage"
+      ],
       ignoreDefaultArgs: ["--mute-audio", "--hide-scrollbars"],
       headless: true,
       ignoreHTTPSErrors: true,
