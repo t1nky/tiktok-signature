@@ -31,7 +31,6 @@ class Signer {
 
     this.options = {
       args: [
-        "--no-first-run",
         "--disable-dev-shm-usage"
       ],
       ignoreDefaultArgs: ["--mute-audio", "--hide-scrollbars"],
