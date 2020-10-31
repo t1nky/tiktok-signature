@@ -31,7 +31,6 @@ class Signer {
 
     this.options = {
       args: [
-        "--disable-accelerated-2d-canvas",
         "--no-first-run",
         "--disable-dev-shm-usage"
       ],
